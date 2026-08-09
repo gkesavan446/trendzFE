@@ -100,6 +100,7 @@ function Success() {
               totalPrice,
               paymentStatus: "Paid",
               paymentId: paymentData.paymentId,
+              checkoutSessionId: sessionId
             }),
           }
         );

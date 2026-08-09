@@ -441,7 +441,7 @@ function Navbar() {
             {user ? (
               <>
                 <span className="text-gray-700 font-medium">
-                  Hello, {user.username}
+                  Hello, {user.username.slice(0,1).toUpperCase() + user.username.slice(1) }
                 </span>
 
                 <button
@@ -484,7 +484,7 @@ function Navbar() {
 
             {user && (
               <span className="text-sm text-gray-700 font-medium">
-                Hello, {user.username}
+                Hello, {user.username.slice(0,1).toUpperCase() + user.username.slice(1)}
               </span>
             )}
 

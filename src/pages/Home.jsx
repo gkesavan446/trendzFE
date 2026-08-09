@@ -117,9 +117,7 @@ function Home() {
       setLoading(true);
       setError("");
 
-      const response = await fetch(
-        "http://localhost:3333/api/v1/products"
-      );
+      const response = await fetch("http://localhost:3333/api/v1/products");
 
       if (!response.ok) {
         throw new Error("Failed to fetch products");
