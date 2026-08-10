@@ -37,11 +37,12 @@ function ProductDetails() {
   }, [id]);
 
   const handleAddToCart = () => {
+    console.log("ADD TO CART CLICKED");
     if (!user) {
       navigate("/login");
       return;
     }
-
+console.log("User exists:", user);
     if (product.stock <= 0) {
       alert("This product is out of stock");
       return;
@@ -49,21 +50,25 @@ function ProductDetails() {
 
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+     console.log("Current cart:", cart);
+  console.log("Current product:", product);
+
+
     const existingProduct = cart.find(
       (item) => item._id === product._id
     );
-
+console.log("Existing product:", existingProduct);
     if (existingProduct) {
       alert("This product is already added to your cart");
       return;
     }
 
-    cart.push({
-      ...product,
-      quantity: 1,
-    });
+    cart.push({...product, quantity: 1,});
 
     localStorage.setItem("cart", JSON.stringify(cart));
+    console.log("Cart saved:", cart);
+    window.dispatchEvent(new Event("cartUpdated"));
+    console.log("Cart updated event dispatched");
 
     alert("Product added to your cart");
   };
@@ -194,8 +199,12 @@ function ProductDetails() {
             {/* User Actions */}
             {!isAdmin && (
               <button
-                onClick={handleAddToCart}
-                disabled={product.stock <= 0}
+                // onClick={handleAddToCart}
+                 onClick={() => {
+                      console.log("BUTTON CLICKED");
+                      handleAddToCart();
+                    }}
+                 disabled={product.stock <= 0}
                 className="mt-8 w-full flex items-center justify-center gap-2 bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors cursor-pointer"
               >
                 <HiOutlineShoppingCart className="text-xl" />

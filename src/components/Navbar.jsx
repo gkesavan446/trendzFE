@@ -273,14 +273,14 @@
 
 
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   HiOutlineShoppingCart,
   HiOutlineMenu,
   HiOutlineX,
 } from "react-icons/hi";
-import logo from '../assets/images/logo.png'
+import logo from "../assets/images/logo.png";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -289,20 +289,31 @@ function Navbar() {
   const [cartCount, setCartCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Load user and cart from localStorage
+  const menuRef = useRef(null);
+
+  // Load user and cart
   const loadUserAndCart = () => {
     try {
       const savedUser = JSON.parse(
         localStorage.getItem("user")
       );
 
-      const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+      const savedCart =
+        JSON.parse(localStorage.getItem("cart")) || [];
 
       setUser(savedUser);
 
-      const totalQuantity = savedCart.reduce((total, item) => total + (Number(item.quantity) || 1), 0);
+      const totalQuantity = savedCart.reduce(
+        (total, item) =>
+          total + (Number(item.quantity) || 1),
+        0
+      );
 
+      // If you want number of different products:
       setCartCount(savedCart.length);
+
+      // If you want total quantity instead:
+      // setCartCount(totalQuantity);
 
     } catch (error) {
       console.error(
@@ -315,17 +326,15 @@ function Navbar() {
     }
   };
 
+  // Load user/cart and listen for changes
   useEffect(() => {
-    // Load when Navbar first mounts
     loadUserAndCart();
 
-    // Login/logout changes
     window.addEventListener(
       "userUpdated",
       loadUserAndCart
     );
 
-    // Cart changes
     window.addEventListener(
       "cartUpdated",
       loadUserAndCart
@@ -344,25 +353,45 @@ function Navbar() {
     };
   }, []);
 
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        menuOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target)
+      ) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
+  }, [menuOpen]);
+
   const handleLogout = () => {
-    // Remove login information
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-
-    // Remove local cart for logged-out session
     localStorage.removeItem("cart");
 
-    // Immediately update Navbar
     setUser(null);
     setCartCount(0);
     setMenuOpen(false);
 
-    // Go home
     navigate("/");
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+    <nav className="bg-white shadow-sm">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
@@ -377,13 +406,14 @@ function Navbar() {
             <img
               src={logo}
               alt="Trendz"
-              className="h-24 w-auto "
+              className="h-24 w-auto"
             />
           </Link>
 
-          {/* Desktop Navbar */}
+          {/* ================= DESKTOP NAVBAR ================= */}
           <div className="hidden md:flex items-center gap-6">
 
+            {/* Home */}
             <NavLink
               to="/"
               className={({ isActive }) =>
@@ -395,6 +425,7 @@ function Navbar() {
               Home
             </NavLink>
 
+            {/* Orders */}
             {user && (
               <NavLink
                 to="/orders"
@@ -408,18 +439,19 @@ function Navbar() {
               </NavLink>
             )}
 
+            {/* Add Product - Admin */}
             {user && user.role === "admin" && (
-                <NavLink
-                  to="/addproduct"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-indigo-600 font-medium"
-                      : "text-gray-600 hover:text-indigo-600"
-                  }
-                >
-                  Add Product
-                </NavLink>
-              )}
+              <NavLink
+                to="/addproduct"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-indigo-600 font-medium"
+                    : "text-gray-600 hover:text-indigo-600"
+                }
+              >
+                Add Product
+              </NavLink>
+            )}
 
             {/* Cart */}
             <Link
@@ -435,13 +467,15 @@ function Navbar() {
               )}
             </Link>
 
-              
-
-            {/* Logged In */}
+            {/* User */}
             {user ? (
               <>
                 <span className="text-gray-700 font-medium">
-                  Hello, {user.username.slice(0,1).toUpperCase() + user.username.slice(1) }
+                  Hello,{" "}
+                  {user.username
+                    .slice(0, 1)
+                    .toUpperCase() +
+                    user.username.slice(1)}
                 </span>
 
                 <button
@@ -479,118 +513,152 @@ function Navbar() {
 
           </div>
 
-          {/* Mobile */}
-          <div className="md:hidden flex items-center gap-3">
+          {/* ================= MOBILE NAVBAR ================= */}
+          <div
+            ref={menuRef}
+            className="md:hidden"
+          >
 
-            {user && (
-              <span className="text-sm text-gray-700 font-medium">
-                Hello, {user.username.slice(0,1).toUpperCase() + user.username.slice(1)}
-              </span>
-            )}
+            {/* Mobile Header */}
+            <div className="flex items-center gap-3">
 
-            <button
-              onClick={() =>
-                setMenuOpen(!menuOpen)
-              }
-              className="text-gray-700 text-2xl cursor-pointer"
-              aria-label="Toggle menu"
-            >
-              {menuOpen ? (
-                <HiOutlineX />
-              ) : (
-                <HiOutlineMenu />
+              {/* Username */}
+              {user && (
+                <span className="text-sm text-gray-700 font-medium">
+                  Hello,{" "}
+                  {user.username
+                    .slice(0, 1)
+                    .toUpperCase() +
+                    user.username.slice(1)}
+                </span>
               )}
-            </button>
+
+              {/* Hamburger */}
+              <button
+                onClick={() =>
+                  setMenuOpen(!menuOpen)
+                }
+                className="text-gray-700 text-2xl cursor-pointer"
+                aria-label="Toggle menu"
+              >
+                {menuOpen ? (
+                  <HiOutlineX />
+                ) : (
+                  <HiOutlineMenu />
+                )}
+              </button>
+
+            </div>
+
+            {/* Mobile Menu */}
+            {menuOpen && (
+              <div className="absolute right-4 sm:right-6 top-16 w-56 bg-white border border-gray-100 shadow-lg rounded-lg py-4 z-50">
+
+                <div className="flex flex-col gap-4 px-4">
+
+                  {/* Home */}
+                  <NavLink
+                    to="/"
+                    onClick={() =>
+                      setMenuOpen(false)
+                    }
+                    className="text-gray-600 hover:text-indigo-600"
+                  >
+                    Home
+                  </NavLink>
+
+                  {/* Orders */}
+                  {user && (
+                    <NavLink
+                      to="/orders"
+                      onClick={() =>
+                        setMenuOpen(false)
+                      }
+                      className="text-gray-600 hover:text-indigo-600"
+                    >
+                      Orders
+                    </NavLink>
+                  )}
+
+                  {/* Add Product */}
+                  {user &&
+                    user.role === "admin" && (
+                      <NavLink
+                        to="/addproduct"
+                        onClick={() =>
+                          setMenuOpen(false)
+                        }
+                        className="text-gray-600 hover:text-indigo-600"
+                      >
+                        Add Product
+                      </NavLink>
+                    )}
+
+                  {/* Cart */}
+                  <NavLink
+                    to="/cart"
+                    onClick={() =>
+                      setMenuOpen(false)
+                    }
+                    className="text-gray-600 hover:text-indigo-600"
+                  >
+                    <div className="flex items-center gap-2">
+
+                      <HiOutlineShoppingCart className="text-xl" />
+
+                      <span>Cart</span>
+
+                      {cartCount > 0 && (
+                        <span className="bg-indigo-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                          {cartCount}
+                        </span>
+                      )}
+
+                    </div>
+                  </NavLink>
+
+                  {/* User Actions */}
+                  {user ? (
+                    <button
+                      onClick={handleLogout}
+                      className="text-red-500 hover:text-red-600 text-left font-medium cursor-pointer"
+                    >
+                      Logout
+                    </button>
+                  ) : (
+                    <>
+                      {/* Login */}
+                      <NavLink
+                        to="/login"
+                        onClick={() =>
+                          setMenuOpen(false)
+                        }
+                        className="text-gray-600 hover:text-indigo-600"
+                      >
+                        Login
+                      </NavLink>
+
+                      {/* Signup */}
+                      <NavLink
+                        to="/signup"
+                        onClick={() =>
+                          setMenuOpen(false)
+                        }
+                        className="text-gray-600 hover:text-indigo-600"
+                      >
+                        Signup
+                      </NavLink>
+                    </>
+                  )}
+
+                </div>
+
+              </div>
+            )}
 
           </div>
 
         </div>
-
-        {/* Mobile Menu */}
-        {menuOpen && (
-          <div className="md:hidden border-t border-gray-100 py-4">
-
-            <div className="flex flex-col gap-4">
-
-              <NavLink
-                to="/"
-                onClick={() =>
-                  setMenuOpen(false)
-                }
-                className="text-gray-600 hover:text-indigo-600"
-              >
-                Home
-              </NavLink>
-
-              {user && (
-                <NavLink
-                  to="/orders"
-                  onClick={() =>
-                    setMenuOpen(false)
-                  }
-                  className="text-gray-600 hover:text-indigo-600"
-                >
-                  Orders
-                </NavLink>
-              )}
-
-              <NavLink
-                to="/cart"
-                onClick={() =>
-                  setMenuOpen(false)
-                }
-                className="text-gray-600 hover:text-indigo-600"
-              >
-                <div className="flex items-center gap-2">
-
-                  <HiOutlineShoppingCart className="text-xl" />
-
-                  <span>Cart</span>
-
-                  {cartCount > 0 && (
-                    <span className="bg-indigo-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                      {cartCount}
-                    </span>
-                  )}
-
-                </div>
-              </NavLink>
-
-              {user ? (
-                <button
-                  onClick={handleLogout}
-                  className="text-red-500 hover:text-red-600 text-left font-medium cursor-pointer"
-                >
-                  Logout
-                </button>
-              ) : (
-                <>
-                  <NavLink
-                    to="/login"
-                    onClick={() =>
-                      setMenuOpen(false)
-                    }
-                    className="text-gray-600 hover:text-indigo-600"
-                  >
-                    Login
-                  </NavLink>
-
-                  <NavLink
-                    to="/signup"
-                    onClick={() =>
-                      setMenuOpen(false)
-                    }
-                    className="text-gray-600 hover:text-indigo-600"
-                  >
-                    Signup
-                  </NavLink>
-                </>
-              )}
-
-            </div>
-
-          </div>
-        )}
 
       </div>
 
