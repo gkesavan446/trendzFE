@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import errorGif from "../assets/gifs/404error.gif";
+import errorGif from "../assets/gifs/404found.gif";
 
 
 function NotFound() {
