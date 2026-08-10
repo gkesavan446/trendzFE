@@ -18,7 +18,7 @@ function ForgotPassword() {
       setLoading(true);
 
       const response = await fetch(
-        "https://trendzbe.onrender.com/api/v1/auth/forgetpassword",
+        "https://trendzbe.onrender.com/api/v1/auth/forgotpassword",
         {
           method: "POST",
           headers: {
