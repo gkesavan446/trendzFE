@@ -25,7 +25,7 @@ function Login() {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:3333/api/v1/auth/login",
+        "https://trendzbe.onrender.com/api/v1/auth/login",
         {
           method: "POST",
           headers: {

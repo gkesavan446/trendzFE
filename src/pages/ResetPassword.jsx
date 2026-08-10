@@ -31,7 +31,7 @@ function ResetPassword() {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:3333/api/v1/auth/resetpassword",
+        "https://trendzbe.onrender.com/api/v1/auth/resetpassword",
         {
           method: "POST",
           headers: {

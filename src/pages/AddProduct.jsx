@@ -72,8 +72,8 @@ function AddProduct() {
       }
       console.log("product._id", product)
       const url = isEdit
-        ? `http://localhost:3333/api/v1/products/${product._id}`
-        : "http://localhost:3333/api/v1/products";
+        ? `https://trendzbe.onrender.com/api/v1/products/${product._id}`
+        : "https://trendzbe.onrender.com/api/v1/products";
       console.log("url", url)
       const response = await fetch(url, {
         method: isEdit ? "PUT" : "POST",

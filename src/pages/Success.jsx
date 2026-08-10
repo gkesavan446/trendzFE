@@ -40,7 +40,7 @@ function Success() {
         // ------------------------------------------------
 
         const verifyResponse = await fetch(
-          "http://localhost:3333/api/v1/payment/verify",
+          "https://trendzbe.onrender.com/api/v1/payment/verify",
           {
             method: "POST",
             headers: {
@@ -88,7 +88,7 @@ function Success() {
         // ------------------------------------------------
 
         const orderResponse = await fetch(
-          "http://localhost:3333/api/v1/order/saveorder",
+          "https://trendzbe.onrender.com/api/v1/order/saveorder",
           {
             method: "POST",
             headers: {

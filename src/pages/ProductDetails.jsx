@@ -20,7 +20,7 @@ function ProductDetails() {
     const getProduct = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3333/api/v1/products/${id}`
+          `https://trendzbe.onrender.com/api/v1/products/${id}`
         );
 
         const data = await response.json();
@@ -84,7 +84,7 @@ console.log("Existing product:", existingProduct);
 
     try {
       const response = await fetch(
-        `http://localhost:3333/api/v1/products/${id}`,
+        `https://trendzbe.onrender.com/api/v1/products/${id}`,
         {
           method: "DELETE",
           headers: {

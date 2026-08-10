@@ -164,7 +164,7 @@ function ProductCard({ product }) {
 
     try {
       const response = await fetch(
-        "http://localhost:3333/api/v1/auth/cart",
+        "https://trendzbe.onrender.com/api/v1/auth/cart",
         {
           method: "POST",
           headers: {
