@@ -1,104 +1,3 @@
-// import { useEffect, useState } from "react";
-// import SearchFilter from "../components/SearchFilter";
-// import ProductGrid from "../components/ProductGrid";
-
-// function Home() {
-//   const [products, setProducts] = useState([]);
-//   const [filteredProducts, setFilteredProducts] = useState([]);
-//   const [categories, setCategories] = useState([]);
-
-//   useEffect(() => {
-//     const getProducts = async () => {
-//       try {
-//         const response = await fetch(
-//           "http://localhost:3333/api/v1/products"
-//         );
-
-//         const data = await response.json();
-
-//         console.log("data", data);
-
-//         setProducts(data.products);
-//         setFilteredProducts(data.products);
-
-//         const uniqueCategories = [
-//           ...new Set(
-//             data.products.map((product) => product.category)
-//           ),
-//         ];
-
-//         setCategories(uniqueCategories);
-//       } catch (error) {
-//         console.error(error.message);
-//       }
-//     };
-
-//     getProducts();
-//   }, []);
-
-//   const handleFilterChange = ({ search, category, price }) => {
-//     let result = [...products];
-
-//     if (search) {
-//       result = result.filter((product) =>
-//         product.title
-//           .toLowerCase()
-//           .includes(search.toLowerCase())
-//       );
-//     }
-
-//     if (category) {
-//       result = result.filter(
-//         (product) => product.category === category
-//       );
-//     }
-
-//     if (price === "below100") {
-//       result = result.filter(
-//         (product) => product.price < 100
-//       );
-//     }
-
-//     if (price === "100-500") {
-//       result = result.filter(
-//         (product) =>
-//           product.price >= 100 &&
-//           product.price <= 500
-//       );
-//     }
-
-//     if (price === "500-1000") {
-//       result = result.filter(
-//         (product) =>
-//           product.price > 500 &&
-//           product.price <= 1000
-//       );
-//     }
-
-//     if (price === "above1000") {
-//       result = result.filter(
-//         (product) => product.price > 1000
-//       );
-//     }
-
-//     setFilteredProducts(result);
-//   };
-
-//   return (
-//     <div>
-//       <SearchFilter
-//         categories={categories}
-//         onFilterChange={handleFilterChange}
-//       />
-
-//       <ProductGrid products={filteredProducts} />
-//     </div>
-//   );
-// }
-
-// export default Home;
-
-
 
 import { useEffect, useState } from "react";
 import SearchFilter from "../components/SearchFilter";
@@ -125,7 +24,7 @@ function Home() {
 
       const data = await response.json();
 
-      console.log("data", data);
+      // console.log("data", data);
 
       const productList = data.products || [];
 

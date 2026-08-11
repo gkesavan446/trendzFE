@@ -31,7 +31,7 @@ function Orders() {
 
       const data = await response.json();
 
-      console.log("orders data", data);
+      // console.log("orders data", data);
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch orders");

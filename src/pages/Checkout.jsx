@@ -13,26 +13,6 @@ function Checkout() {
     0
   );
 
-  // const handlePayment = async () => {
-  //   if (cart.length === 0) {
-  //     alert("Your cart is empty");
-  //     navigate("/cart");
-  //     return;
-  //   }
-
-  //   try {
-  //     setLoading(true);
-
-  //     // Payment integration will be handled here.
-  //     // After successful payment, the order will be saved.
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handlePayment = async () => {
   if (cart.length === 0) {
     alert("Your cart is empty");

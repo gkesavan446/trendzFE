@@ -7,8 +7,8 @@ function ResetPassword() {
 
   const queryParams = new URLSearchParams(location.search);
   const emailFromUrl = queryParams.get("email") || "";
-  console.log("queryParams", queryParams)
-  console.log("emailFromUrl", emailFromUrl)
+  // console.log("queryParams", queryParams)
+  // console.log("emailFromUrl", emailFromUrl)
   const [formData, setFormData] = useState({
     email: emailFromUrl,
     otp: "",

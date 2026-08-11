@@ -40,7 +40,7 @@ function ForgotPassword() {
       navigate(`/resetpassword?email=${encodeURIComponent(email)}`);
     } catch (error) {
       console.error(error);
-      alert("Something went wrong");
+      alert("Something went wrong. The email service may be unavailable on the deployed server. Please try again later.");
     } finally {
       setLoading(false);
     }

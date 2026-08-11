@@ -50,7 +50,7 @@ function Cancel() {
           throw new Error(data.message || "Failed to save cancelled order");
         }
 
-        console.log("Failed order saved:", data);
+        // console.log("Failed order saved:", data);
 
       } catch (error) {
         console.log("Failed to save cancelled order:", error);

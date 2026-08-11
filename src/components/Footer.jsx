@@ -1,37 +1,3 @@
-
-// import logo from '../assets/images/logo.png'
-
-
-
-// function Footer() {
-//   return (
-//     <footer className="bg-gray-900 text-white">
-//       <div className="max-w-7xl mx-auto px-6 py-10">
-//         <div className="flex flex-col items-center text-center gap-4">
-
-//           <h2 className="text-2xl font-bold text-indigo-400">
-//             🛍️ Trendz
-           
-//           </h2>
-
-//           <p className="text-gray-400">Built by Kesavan Gnanasekaran</p>
-            
-          
-
-//           <div className="w-full border-t border-gray-700 pt-4">
-//             <p className="text-sm text-gray-500">
-//               © 2026 Trendz. All Rights Reserved.
-//             </p>
-//           </div>
-
-//         </div>
-//       </div>
-//     </footer>
-//   );
-// }
-
-// export default Footer;
-
 import logo from '../assets/images/logo4.png'
 
 function Footer() {

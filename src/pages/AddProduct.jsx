@@ -7,7 +7,7 @@ function AddProduct() {
 
   const product = location.state;
   const isEdit = Boolean(product);
-  console.log("isEdit", isEdit)
+  // console.log("isEdit", isEdit)
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -70,11 +70,11 @@ function AddProduct() {
       if (image) {
         data.append("image", image);
       }
-      console.log("product._id", product)
+      // console.log("product._id", product)
       const url = isEdit
         ? `https://trendzbe.onrender.com/api/v1/products/${product._id}`
         : "https://trendzbe.onrender.com/api/v1/products";
-      console.log("url", url)
+      // console.log("url", url)
       const response = await fetch(url, {
         method: isEdit ? "PUT" : "POST",
         headers: {

@@ -37,12 +37,12 @@ function ProductDetails() {
   }, [id]);
 
   const handleAddToCart = () => {
-    console.log("ADD TO CART CLICKED");
+    // console.log("ADD TO CART CLICKED");
     if (!user) {
       navigate("/login");
       return;
     }
-console.log("User exists:", user);
+// console.log("User exists:", user);
     if (product.stock <= 0) {
       alert("This product is out of stock");
       return;
@@ -50,14 +50,14 @@ console.log("User exists:", user);
 
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-     console.log("Current cart:", cart);
-  console.log("Current product:", product);
+  //    console.log("Current cart:", cart);
+  // console.log("Current product:", product);
 
 
     const existingProduct = cart.find(
       (item) => item._id === product._id
     );
-console.log("Existing product:", existingProduct);
+// console.log("Existing product:", existingProduct);
     if (existingProduct) {
       alert("This product is already added to your cart");
       return;
@@ -66,9 +66,9 @@ console.log("Existing product:", existingProduct);
     cart.push({...product, quantity: 1,});
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    console.log("Cart saved:", cart);
+    // console.log("Cart saved:", cart);
     window.dispatchEvent(new Event("cartUpdated"));
-    console.log("Cart updated event dispatched");
+    // console.log("Cart updated event dispatched");
 
     alert("Product added to your cart");
   };
@@ -201,7 +201,7 @@ console.log("Existing product:", existingProduct);
               <button
                 // onClick={handleAddToCart}
                  onClick={() => {
-                      console.log("BUTTON CLICKED");
+                      // console.log("BUTTON CLICKED");
                       handleAddToCart();
                     }}
                  disabled={product.stock <= 0}
