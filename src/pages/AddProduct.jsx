@@ -7,7 +7,7 @@ function AddProduct() {
 
   const product = location.state;
   const isEdit = Boolean(product);
-  // console.log("isEdit", isEdit)
+  
   const [formData, setFormData] = useState({
     title: "",
     description: "",
